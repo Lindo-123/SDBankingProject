@@ -11,4 +11,4 @@ dart:
 # Install a specific dev release, using a partial download URL - 2.9.0-2.0.dev
 - "dev/release/2.9.0-2.0.dev"
 # Install a specific beta release, using a partial download URL - 2.9.0-2.0.beta
-- "beta/release/2.9.0-2.0.beta"
+#- "beta/release/2.9.0-2.0.beta"
