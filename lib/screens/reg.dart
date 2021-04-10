@@ -3,7 +3,7 @@ import 'package:banking_app/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-
+import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -20,19 +20,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _email;
   String _password;
   String _confirmpass;
-  
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildfirstName() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Name'),
-      validator: MultiValidator(
-        [
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
-        MinLengthValidator(1,errorText: "First Name should be at least 2 letters long"),
-        PatternValidator(r"^(?<firstchar>(?=[A-Za-z]))((?<alphachars>[A-Za-z])|(?<specialchars>[A-Za-z]['-](?=[A-Za-z]))|(?<spaces> (?=[A-Za-z])))*$",errorText: 'Please enter a valid First Name')
-        ]
-      ),
+        MinLengthValidator(1,
+            errorText: "First Name should be at least 2 letters long"),
+        PatternValidator(
+            r"^(?<firstchar>(?=[A-Za-z]))((?<alphachars>[A-Za-z])|(?<specialchars>[A-Za-z]['-](?=[A-Za-z]))|(?<spaces> (?=[A-Za-z])))*$",
+            errorText: 'Please enter a valid First Name')
+      ]),
       onSaved: (String value) {
         _firstName = value;
       },
@@ -42,13 +43,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildlastName() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Last Name'),
-      validator: MultiValidator(
-        [
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
-        MinLengthValidator(1,errorText: "Last Name should be at least 2 letters long"),
-        PatternValidator(r"^(?<firstchar>(?=[A-Za-z]))((?<alphachars>[A-Za-z])|(?<specialchars>[A-Za-z]['-](?=[A-Za-z]))|(?<spaces> (?=[A-Za-z])))*$",errorText: 'Please enter a valid Last Name')
-        ]
-      ),
+        MinLengthValidator(1,
+            errorText: "Last Name should be at least 2 letters long"),
+        PatternValidator(
+            r"^(?<firstchar>(?=[A-Za-z]))((?<alphachars>[A-Za-z])|(?<specialchars>[A-Za-z]['-](?=[A-Za-z]))|(?<spaces> (?=[A-Za-z])))*$",
+            errorText: 'Please enter a valid Last Name')
+      ]),
       onSaved: (String value) {
         _lastName = value;
       },
@@ -58,13 +60,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _builduserName() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Username'),
-      validator: MultiValidator(
-        [
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
-        MinLengthValidator(1,errorText: "Username should be at least 2 letters long"),
-        
-                ]
-      ),
+        MinLengthValidator(1,
+            errorText: "Username should be at least 2 letters long"),
+      ]),
       onSaved: (String value) {
         _userName = value;
       },
@@ -74,52 +74,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildidNumber() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'ID Number'),
-      validator: MultiValidator(
-        [
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
-         
-        PatternValidator(r"^(0|[1-9][0-9]*)$",errorText:"ID Number Must be Numerics only"),
-        MinLengthValidator(13,errorText: "idNumber should be 13 numbers long"),
-        MaxLengthValidator(13,errorText: "idNumber should be 13 numbers long"),
-                ]
-      ),
+        PatternValidator(r"^(0|[1-9][0-9]*)$",
+            errorText: "ID Number Must be Numerics only"),
+        MinLengthValidator(13, errorText: "idNumber should be 13 numbers long"),
+        MaxLengthValidator(13, errorText: "idNumber should be 13 numbers long"),
+      ]),
       onSaved: (String value) {
         _idNumber = value;
       },
     );
   }
 
-   Widget _buildphoneNumber() {
+  Widget _buildphoneNumber() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Phone Number'),
-      validator: MultiValidator(
-        [
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
-        PatternValidator(r"^(0|[1-9][0-9]*)$",errorText:"Phone Number Must be Numerics only"),
-        MinLengthValidator(9,errorText: "Phone number should be 9 numbers long"), 
-        MaxLengthValidator(9,errorText: "Phone number should be 9 numbers long"),
-        
-                ]
-      ),
+        PatternValidator(r"^(0|[1-9][0-9]*)$",
+            errorText: "Phone Number Must be Numerics only"),
+        MinLengthValidator(9,
+            errorText: "Phone number should be 9 numbers long"),
+        MaxLengthValidator(9,
+            errorText: "Phone number should be 9 numbers long"),
+      ]),
       onSaved: (String value) {
         _phoneNumber = value;
       },
     );
   }
 
-
   Widget _buildcellNumber() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Cellphone Number'),
-      validator: MultiValidator(
-        [
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
-        PatternValidator(r"^(0|[1-9][0-9]*)$",errorText:"Cellphone Number Must be Numerics only"),
-        MinLengthValidator(9,errorText: "Phone number should be 9 numbers long"), 
-        MaxLengthValidator(9,errorText: "Phone number should be 9 numbers long"),
-        
-                ]
-      ),
+        PatternValidator(r"^(0|[1-9][0-9]*)$",
+            errorText: "Cellphone Number Must be Numerics only"),
+        MinLengthValidator(9,
+            errorText: "Phone number should be 9 numbers long"),
+        MaxLengthValidator(9,
+            errorText: "Phone number should be 9 numbers long"),
+      ]),
       onSaved: (String value) {
         _cellno = value;
       },
@@ -129,11 +126,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildEmail() {
     return TextFormField(
       decoration: InputDecoration(labelText: 'Email'),
-      validator: MultiValidator( 
-        [
+      validator: MultiValidator([
         EmailValidator(errorText: "Enter Valid Email"),
-        RequiredValidator(errorText: "Required"), ]
-      ),
+        RequiredValidator(errorText: "Required"),
+      ]),
       onSaved: (String value) {
         _email = value;
       },
@@ -145,12 +141,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       decoration: InputDecoration(labelText: 'Password'),
       keyboardType: TextInputType.visiblePassword,
       validator: MultiValidator([
-
         RequiredValidator(errorText: "Required"),
-        PatternValidator(r'(?=.*?[#?!@$%^&*-])',errorText: "Enter Password with at lease one special character"),
+        PatternValidator(r'(?=.*?[#?!@$%^&*-])',
+            errorText: "Enter Password with at lease one special character"),
       ]),
-
-
       onSaved: (String value) {
         _password = value;
       },
@@ -162,18 +156,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       decoration: InputDecoration(labelText: 'Password'),
       keyboardType: TextInputType.visiblePassword,
       validator: MultiValidator([
-
         RequiredValidator(errorText: "Required"),
-        PatternValidator(r'(?=.*?[#?!@$%^&*-])',errorText: "Enter Password with at lease one special character"),
+        PatternValidator(r'(?=.*?[#?!@$%^&*-])',
+            errorText: "Enter Password with at lease one special character"),
       ]),
-
-
       onSaved: (String value) {
         _confirmpass = value;
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -221,34 +212,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     print(_phoneNumber);
                     print(_password);
                     print(_confirmpass);
-                  }
-                    //Sending to API
-                   /* async {
-                      var url = Uri.parse(
-                      'https://lamp.ms.wits.ac.za/home/s2092154/bankCli_reg.php');
-                       var response = await http.post(url, body: {
-                      'User_Type_ID': '201',
-                      'Username': _userName,
-                      'Password': _password,
-                      'ID_Number': _idNumber,
-                      'First_Name': _firstName,
-                      'Last_Name': _lastName,
-                      'Phone': _cellno,
-                      'email': _email,
-                    });
-                    print('Response status: ${response.statusCode}');
-                    print('Response body: ${response.body}');
 
+                    //Sending to API
+                    _apiResponse();
                     Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-                
-                    }, */
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
                 )
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _apiResponse() async {
+    var url =
+        Uri.parse('https://lamp.ms.wits.ac.za/home/s2092154/bankCli_reg.php');
+    var response = await http.post(
+      url,
+      body: {
+        'User_Type_ID': '201',
+        'Username': _userName,
+        'Password': _password,
+        'ID_Number': _idNumber,
+        'First_Name': _firstName,
+        'Last_Name': _lastName,
+        'Phone': _cellno,
+        'email': _email,
+
+        //print('Response status: ${response.statusCode}');
+        //print('Response body: ${response.body}');
+      },
     );
   }
 }
